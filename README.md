@@ -1,0 +1,1 @@
+"Pacote que auxilia na implementação da arquitetura flux para angular 2."
