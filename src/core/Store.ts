@@ -1,11 +1,18 @@
 import { actionMetadataKey, mutationMetadataKey } from './decorators';
 import {Injectable} from "@angular/core";
+import {Flux} from "./Flux";
 
 /**
  * Classe que representa um store na arquitetura flux;
  * @author luiz.v.nasc
  */
 export abstract class Store {
+
+
+    constructor(){
+        //Adiciona a store a lista de stores do flux
+        Flux.instance.addStore(this);
+    }
 
     /**
      * Método que emite uma ação.

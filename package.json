@@ -1,31 +1,31 @@
 {
-    "name": "ng2-lightflux",
-    "version": "1.0.0",
-    "description": "Pacote que auxilia na implementação da arquitetura flux para angular 2.",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "keywords": [
-        "flux",
-        "angular",
-        "typescript"
-    ],
-    "author": "luizvnasc",
-    "license": "MIT",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/luizvnasc/ng2-lightflux.git"
-    },
-    "bugs": {
-        "url": "https://github.com/luizvnasc/ng2-lightflux/issues"
-    },
-    "dependencies": {
-        "reflect-metadata": "^0.1.10"
-    },
-    "devDependencies": {
-        "@angular/core": "^4.3.5",
-        "typescript": "^2.3.3"
-    },
-    "exclude"
+  "name": "ng2-lightflux",
+  "version": "1.0.1",
+  "description": "Pacote que auxilia na implementação da arquitetura flux para angular 2.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "flux",
+    "angular",
+    "typescript"
+  ],
+  "author": "luizvnasc",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luizvnasc/ng2-lightflux.git"
+  },
+  "bugs": {
+    "url": "https://github.com/luizvnasc/ng2-lightflux/issues"
+  },
+  "dependencies": {
+    "@types/winston": "^2.3.5",
+    "reflect-metadata": "^0.1.10"
+  },
+  "devDependencies": {
+    "@angular/core": "^4.3.5",
+    "typescript": "^2.3.3"
+  }
 }
