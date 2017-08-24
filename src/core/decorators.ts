@@ -26,7 +26,7 @@ export function mutation(target : any, propertyKey : string) {
 }
 
 export function state(target : any, propertyKey : string) {
-    Reflect.defineMetadata(stateMetadataKey, true, target,propertyKey);
+    Reflect.defineMetadata(stateMetadataKey, true, target, propertyKey);
 }
 
 export function data(stateName
@@ -40,7 +40,8 @@ export function data(stateName
             }
             if (Flux.instance.options.namespace) {
 
-                let [store,state] = stateName.split('.')
+                let [store,
+                    state] = stateName.split('.')
 
                 let storeInstance = Flux
                     .instance
@@ -49,10 +50,10 @@ export function data(stateName
                 if (storeInstance == null) {
                     throw new Error('Store ' + store + ' inexistente.');
                 } else {
-                    if (state in storeInstance && Reflect.hasMetadata(stateMetadataKey, storeInstance,state)) {
+                    if (state in storeInstance && Reflect.hasMetadata(stateMetadataKey, storeInstance, state)) {
                         return storeInstance[state];
                     } else {
-                        if (!Reflect.hasMetadata(stateMetadataKey, storeInstance,state)) {
+                        if (!Reflect.hasMetadata(stateMetadataKey, storeInstance, state)) {
                             throw new Error('A propriedade ' + state + ' não é um state da store ' + store);
                         } else {
                             throw new Error('State ' + state + ' não existe ou não pertence à store ' + store);
@@ -63,11 +64,15 @@ export function data(stateName
             } else {
                 for (let store in Flux.instance.stores) {
                     let storeInstance = Flux.instance.stores[store];
-                    if (stateName in storeInstance && Reflect.hasMetadata(stateMetadataKey, storeInstance,stateName)) {
+                    if (stateName in storeInstance && Reflect.hasMetadata(stateMetadataKey, storeInstance, stateName)) {
                         return storeInstance[stateName];
                     }
                 }
             }
+        }
+        descriptor.set = (value : any) => {
+            throw new Error('Um estado não pode ser alterado diretamente. utilize uma ação e uma mutação para' +
+                    ' isso.')
         }
         return Object.defineProperty(target, propertyKey, descriptor);
     }
