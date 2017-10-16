@@ -1,10 +1,9 @@
 import {Store} from './Store';
 import {FluxOptions} from './FluxOptions';
 
-
 export class Flux {
     private static _instance : Flux = null;
-    private _options : FluxOptions = new FluxOptions ;
+    private _options : FluxOptions = new FluxOptions();
     private _stores : Store[] = [];
     private contructor() {}
 
@@ -12,9 +11,7 @@ export class Flux {
         if(Flux._instance == null) {
 
             Flux._instance = new Flux();
-        }else{
-
-        }
+        } else {}
     }
     public static destroy() {
         Flux._instance = null;
@@ -36,22 +33,21 @@ export class Flux {
     }
 
     addStore(store : Store) : void {
-        this
-            ._stores
-            .push(store);
-           
-    }
+        if(this._stores.indexOf(store) == -1) 
+            this._stores.push(store);
 
-    getStore(name: string){
-        for(let store in this._stores){
-            if(this._stores[store].constructor.name === name){
+        }
+    
+    getStore(name : string) {
+        for (let store in this._stores) {
+            if (this._stores[store].constructor.name === name) {
                 return this._stores[store];
             }
         }
         return null;
     }
 
-    get stores(){
+    get stores() {
         return this._stores;
     }
 }

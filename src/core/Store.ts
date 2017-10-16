@@ -1,3 +1,4 @@
+import { Subject } from 'rxjs/Rx';
 import { actionMetadataKey, mutationMetadataKey } from './decorators';
 import {Injectable} from "@angular/core";
 import {Flux} from "./Flux";
@@ -8,6 +9,7 @@ import {Flux} from "./Flux";
  */
 export abstract class Store {
 
+    private actionSource = new Subject<string>();
 
     constructor(){
         //Adiciona a store a lista de stores do flux
@@ -19,15 +21,14 @@ export abstract class Store {
      * @param action Nome da ação.
      * @param payload dado utilizado pela ação.
      */
-    public dispatch(action : string, payload?: any) : void {
+    public dispatch(action : string, payload?: any) : any {
         if(action in this) {
             if (Reflect.hasMetadata(actionMetadataKey, this[action]) && Reflect.getMetadata(actionMetadataKey, this[action])) {
                 if (payload != undefined) 
-                    this[action](payload);
+                    return this[action](payload);
                 else 
-                    this[action]();
-                }
-            else {
+                    return this[action]();
+            }else {
                 throw new TypeError('a propriedade ' + action + ' não é uma instância de Action.')
             }
         } else {
@@ -43,6 +44,7 @@ export abstract class Store {
         if(mutation in this) {
             if (Reflect.hasMetadata(mutationMetadataKey, this[mutation]) && Reflect.getMetadata(mutationMetadataKey, this[mutation])) {
                 this[mutation](payload);
+                this.actionSource.next(mutation);
             } else {
                 throw new TypeError('a propriedade ' + mutation + ' não é uma instância de Mutation.')
             }
@@ -50,6 +52,13 @@ export abstract class Store {
             throw new ReferenceError('A mutação ' + mutation + ' não existe nesta store');
         }
 
+    }
+
+    public subscribe(method: string, callback: () => void){
+        this.actionSource.asObservable().subscribe(action => {
+            if(action === method)
+                callback();
+        })
     }
 
 }

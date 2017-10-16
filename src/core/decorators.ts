@@ -1,9 +1,16 @@
+import { Subscriber } from 'rxjs/Rx';
 import {Store} from './Store';
 import 'reflect-metadata';
 import {Flux} from './Flux';
+import {Observable} from 'rxjs';
 export const actionMetadataKey = Symbol('ng2Flux:action');
 export const mutationMetadataKey = Symbol('ng2Flux:mutation');
 export const stateMetadataKey = Symbol('ng2Flux:state');
+
+interface StateDescriptor extends PropertyDescriptor{
+    asObservable:Function;
+}
+
 
 /**
  * Decorator que indica que um método é uma action.
@@ -23,17 +30,17 @@ export function action(target : any, propertyKey : string) {
  */
 export function mutation(target : any, propertyKey : string) {
     Reflect.defineMetadata(mutationMetadataKey, true, target[propertyKey]);
+  
 }
 
 export function state(target : any, propertyKey : string) {
     Reflect.defineMetadata(stateMetadataKey, true, target, propertyKey);
 }
 
-export function data(stateName
-    ?
-    : string) {
+export function data(stateName?: string) {
     return function (target : any, propertyKey : string) {
         let descriptor = Object.getOwnPropertyDescriptor(target, propertyKey) || {};
+        
         descriptor.get = () => {
             if (stateName == undefined) {
                 stateName = propertyKey;
@@ -74,6 +81,7 @@ export function data(stateName
             throw new Error('Um estado não pode ser alterado diretamente. utilize uma ação e uma mutação para' +
                     ' isso.')
         }
+      
         return Object.defineProperty(target, propertyKey, descriptor);
     }
 }
