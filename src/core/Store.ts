@@ -1,6 +1,5 @@
 import { Subject } from 'rxjs/Rx';
 import { actionMetadataKey, mutationMetadataKey } from './decorators';
-import {Injectable} from "@angular/core";
 import {Flux} from "./Flux";
 
 /**
